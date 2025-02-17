@@ -59,7 +59,7 @@ catalogs:
         "typescript": ^5.7.3
         "tsx": ^4.19.2
         "globals": ^15.12.0
-        "typescript-eslint": ^8.15.0
+        "typescript-eslint": ^8.24.0
         "@next/eslint-plugin-next": ^15.1.0
         "@tanstack/eslint-plugin-query": ^5.62.9
         "@typescript-eslint/eslint-plugin": ^8.15.0
