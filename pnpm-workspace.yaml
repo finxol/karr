@@ -10,7 +10,7 @@ catalog:
     "tinyrainbow": ^2.0.0
 
     # Web packages
-    "posthog-js": ^1.210.2
+    "posthog-js": ^1.218.2
     "@tailwindcss/postcss": 4.0.0
     "tailwindcss": 4.0.0
     "babel-plugin-react-compiler": 19.0.0-beta-decd7b8-20250118
