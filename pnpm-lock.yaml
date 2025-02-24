@@ -170,8 +170,8 @@ catalogs:
       specifier: ^15.3.0
       version: 15.3.0
     prettier:
-      specifier: ^3.4.2
-      version: 3.4.2
+      specifier: ^3.5.2
+      version: 3.5.2
     prettier-plugin-tailwindcss:
       specifier: ^0.6.10
       version: 0.6.10
@@ -204,7 +204,7 @@ importers:
         version: 19.6.0
       '@ianvs/prettier-plugin-sort-imports':
         specifier: catalog:tooling
-        version: 4.4.0(prettier@3.4.2)
+        version: 4.4.0(prettier@3.5.2)
       '@turbo/gen':
         specifier: catalog:tooling
         version: 2.3.3(@types/node@22.13.1)(typescript@5.7.3)
@@ -219,10 +219,10 @@ importers:
         version: 15.3.0
       prettier:
         specifier: catalog:tooling
-        version: 3.4.2
+        version: 3.5.2
       prettier-plugin-tailwindcss:
         specifier: catalog:tooling
-        version: 0.6.10(@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.4.2))(prettier@3.4.2)
+        version: 0.6.10(@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.5.2))(prettier@3.5.2)
       turbo:
         specifier: ^2.4.2
         version: 2.4.2
@@ -4298,8 +4298,8 @@ packages:
       prettier-plugin-svelte:
         optional: true
 
-  prettier@3.4.2:
-    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+  prettier@3.5.2:
+    resolution: {integrity: sha512-lc6npv5PH7hVqozBR7lkBNOGXV9vMwROAPlumdBkX0wTbbzPu/U1hk5yL8p2pt4Xoc+2mkT8t/sow2YrV/M5qg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -5765,13 +5765,13 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.1': {}
 
-  '@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.4.2)':
+  '@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.5.2)':
     dependencies:
       '@babel/generator': 7.26.3
       '@babel/parser': 7.26.3
       '@babel/traverse': 7.26.4
       '@babel/types': 7.26.3
-      prettier: 3.4.2
+      prettier: 3.5.2
       semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
@@ -8590,13 +8590,13 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-tailwindcss@0.6.10(@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.4.2))(prettier@3.4.2):
+  prettier-plugin-tailwindcss@0.6.10(@ianvs/prettier-plugin-sort-imports@4.4.0(prettier@3.5.2))(prettier@3.5.2):
     dependencies:
-      prettier: 3.4.2
+      prettier: 3.5.2
     optionalDependencies:
-      '@ianvs/prettier-plugin-sort-imports': 4.4.0(prettier@3.4.2)
+      '@ianvs/prettier-plugin-sort-imports': 4.4.0(prettier@3.5.2)
 
-  prettier@3.4.2: {}
+  prettier@3.5.2: {}
 
   prop-types@15.8.1:
     dependencies:
