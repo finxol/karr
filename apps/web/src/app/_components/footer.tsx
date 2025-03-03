@@ -2,9 +2,9 @@ import { Button } from "@karr/ui/components/button"
 
 import { Link } from "@/i18n/routing"
 
-import { LocaleSwitcher } from "./LocaleSwitcher"
-import { ThemeSwitch } from "./ThemeSwitch"
-import { isProduction, version } from "./version"
+import { LocaleSwitcher } from "./footer/LocaleSwitcher"
+import { ThemeSwitch } from "./footer/ThemeSwitch"
+import { isProduction, version } from "./footer/version"
 
 export default function Footer() {
     return (
@@ -17,7 +17,7 @@ export default function Footer() {
                 <Button
                     variant="link"
                     asChild
-                    className="text-sm text-muted-foreground px-0"
+                    className="text-xs text-muted-foreground px-0"
                 >
                     <Link
                         href={`https://github.com/finxol/karr/releases/tag/v${version}`}

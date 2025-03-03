@@ -1,24 +1,22 @@
 import { memo } from "react"
 import Image from "next/image"
-import { useTranslations } from "next-intl"
-
-import { Button } from "@karr/ui/components/button"
-import { Separator } from "@karr/ui/components/separator"
 
 import { Link } from "@/i18n/routing"
 import { APPLICATION_NAME } from "@/util/appname"
 import logo from "@/assets/logo-tmp.jpg"
 
-import LoginAccount from "../_components/loginaccount"
+import LoginAccount from "./header/LoginAccount"
+import { DesktopNavMenu, MobileNavMenu } from "./header/NavMenu"
 
-const MemoizedAppName = memo(() => <h5>{APPLICATION_NAME}</h5>)
+const MemoizedAppName = memo(
+    () => <h5>{APPLICATION_NAME}</h5>,
+    () => false // Never update
+)
 
 export default function Header() {
-    const t = useTranslations("trips")
-
     return (
         <header className="bg-background w-full sticky top-0 z-50 px-2">
-            <div className="flex flex-row items-center justify-between mt-2 px-4 py-2 bg-primary/4 w-full rounded-lg">
+            <div className="flex flex-row items-center justify-between mx-auto mt-2 px-2 py-2 max-w-[60rem] bg-primary/4 w-full rounded-md">
                 <div className="flow-inline flex flex-row items-center justify-end">
                     <Link
                         href="/"
@@ -29,19 +27,15 @@ export default function Header() {
                             src={logo}
                             width={40}
                             height={40}
-                            className="rounded-lg hidden md:block"
+                            className="rounded-md"
                             placeholder="blur"
                         />
                         <MemoizedAppName />
                     </Link>
-                    <Separator orientation="vertical" className="h-8" />
-                    <nav className="flex flex-row items-center justify-end gap-4">
-                        <Button asChild variant="link" className="text-md px-0">
-                            <Link href="/trips/search">{t("title")}</Link>
-                        </Button>
-                    </nav>
+                    <DesktopNavMenu />
                 </div>
                 <div className="flex flex-row items-center justify-end gap-4">
+                    <MobileNavMenu />
                     <nav className="flex flex-row items-center justify-end gap-4">
                         <LoginAccount />
                     </nav>

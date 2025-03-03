@@ -8,6 +8,8 @@
     "NavBar": {
         "home": "Home",
         "trips": "Trips",
+        "new-trip": "New trip",
+        "search-trips": "Search trips",
         "utilities": "Utilities",
         "account": "Account"
     },

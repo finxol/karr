@@ -8,6 +8,8 @@
     "NavBar": {
         "home": "Accueil",
         "trips": "Trajets",
+        "new-trip": "Nouveau trajet",
+        "search-trips": "Rechercher un trajet",
         "utilities": "Utilitaires",
         "account": "Compte"
     },
