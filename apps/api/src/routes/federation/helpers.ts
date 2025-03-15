@@ -1,16 +1,16 @@
 import { FetchError, ofetch } from "ofetch"
 
 import { FEDERATION_TARGETS } from "@karr/config"
-import { Trip } from "@karr/db/schemas/trips.js"
+import { TripSelect } from "@karr/db/schemas/trips.js"
 import logger from "@karr/util/logger"
 
 import { DataResponse } from "@/lib/types"
 
-export async function getFederatedTrips(): Promise<Trip[]> {
-    const trips: Trip[] = []
+export async function getFederatedTrips() {
+    const trips = []
     try {
         for await (const target of FEDERATION_TARGETS) {
-            const t = await ofetch<DataResponse<Trip[]>>(
+            const t = await ofetch<DataResponse<TripSelect[]>>(
                 "/api/v1/federation/trips/search",
                 {
                     baseURL: target.url,

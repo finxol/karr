@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { Earth as IconEarth, House as IconHouse, Trash as IconTrash } from "lucide-react"
 
-import { TripSchema, type Trip } from "@karr/db/schemas/trips.js"
+import { TripSelectSchema, type TripSelect } from "@karr/db/schemas/trips.js"
 import { Badge } from "@karr/ui/components/badge"
 import { Button } from "@karr/ui/components/button"
 import {
@@ -32,7 +32,7 @@ export default function TripList({ userid }: { userid: string }) {
 function FetchTrips({ userid }: { userid: string }) {
     // Access the client
     const queryClient = useQueryClient()
-    const [trips, setTrips] = useState<Trip[]>([])
+    const [trips, setTrips] = useState<TripSelect[]>([])
     const [loading, setLoading] = useState(false)
 
     async function deleteTrip(tripId: string): Promise<undefined> {
@@ -102,13 +102,13 @@ function FetchTrips({ userid }: { userid: string }) {
                             try {
                                 line = line.substring(6)
                                 const tripData = JSON.parse(line)
-                                return TripSchema.parse(tripData)
+                                return TripSelectSchema.parse(tripData)
                             } catch (e) {
                                 console.error("Failed to parse trip:", e)
                                 return null
                             }
                         })
-                        .filter((trip): trip is Trip => trip !== null)
+                        .filter((trip): trip is TripSelect => trip !== null)
 
                     if (newTrips.length > 0 && mounted) {
                         // Check if still mounted
@@ -120,7 +120,7 @@ function FetchTrips({ userid }: { userid: string }) {
                 if (buffer.trim() && mounted) {
                     try {
                         const tripData = JSON.parse(buffer)
-                        const trip = TripSchema.parse(tripData)
+                        const trip = TripSelectSchema.parse(tripData)
                         setTrips((prev) => [...prev, trip])
                     } catch (e) {
                         console.error("Failed to parse final trip:", e)
@@ -166,8 +166,8 @@ function FetchTrips({ userid }: { userid: string }) {
 
     return (
         <section className="flex flex-col items-center justify-start gap-4">
-            {trips.map((trip: Trip) => {
-                const t = TripSchema.parse(trip)
+            {trips.map((trip) => {
+                const t = TripSelectSchema.parse(trip)
                 return (
                     <TripCard
                         key={`${trip.origin || ""}@${t.id}`}
@@ -185,7 +185,7 @@ function TripCard({
     trip,
     onDelete
 }: {
-    trip: Trip
+    trip: TripSelect
     onDelete: (id: string) => Promise<void>
 }) {
     return (

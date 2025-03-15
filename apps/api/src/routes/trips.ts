@@ -1,7 +1,7 @@
 import { Hono } from "hono"
 import { streamSSE } from "hono/streaming"
 
-import { NewTrip, NewTripSchema, Trip } from "@karr/db/schemas/trips.js"
+import { NewTrip, NewTripSchema, TripSelect } from "@karr/db/schemas/trips.js"
 import logger from "@karr/util/logger"
 
 import { handleRequest, responseErrorObject } from "@/lib/helpers"
@@ -27,8 +27,7 @@ hono.get("/search", (c) => {
 
         const tripsToSend: Promise<void>[] = []
 
-        // TODO(@finxol): Fix the type of data
-        function sendData(data: Trip[]) {
+        function sendData(data: TripSelect[]) {
             logger.debug(`Sending ${data.length} trips`, data)
             for (const item of data) {
                 tripsToSend.push(
@@ -129,7 +128,7 @@ export default hono
 // ===============================================
 
 //eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getSlowerData(): Promise<Trip[]> {
+function getSlowerData(): Promise<TripSelect[]> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve([
@@ -139,7 +138,7 @@ function getSlowerData(): Promise<Trip[]> {
                     to: "Acigne",
                     departure: "2025-01-23",
                     price: 5,
-                    email: "john.doe@example.com",
+                    //email: "john.doe@example.com",
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
                     account: "715d3ca1-50ec-4bd1-8934-15bd0676a23b"

@@ -8,7 +8,8 @@
         "build": "tsc",
         "check-types": "tsc --noEmit",
         "test": "vitest",
-        "migrations:generate": "drizzle-kit generate"
+        "migrations:generate": "drizzle-kit generate",
+        "drizzle-studio": "drizzle-kit studio"
     },
     "exports": {
         "./migrate": {
@@ -29,6 +30,7 @@
         "@karr/util": "workspace:*",
         "drizzle-orm": "catalog:",
         "drizzle-kit": "catalog:",
+        "drizzle-zod": "catalog:",
         "postgres": "catalog:",
         "zod": "catalog:"
     },

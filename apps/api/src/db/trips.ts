@@ -5,14 +5,14 @@ import drizzle from "@karr/db"
 import { accountsTable } from "@karr/db/schemas/accounts.js"
 import {
     NewTripSchema,
-    TripSchema,
+    TripSelectSchema,
     tripsTable,
     type NewTrip,
-    type Trip
+    type TripSelect
 } from "@karr/db/schemas/trips.js"
 import logger from "@karr/util/logger"
 
-export async function getTrips(): Promise<Trip[]> {
+export async function getTrips() {
     const trips = await drizzle
         .select({
             ...getTableColumns(tripsTable),
@@ -20,15 +20,15 @@ export async function getTrips(): Promise<Trip[]> {
         })
         .from(tripsTable)
         .leftJoin(accountsTable, eq(tripsTable.account, accountsTable.id))
-    return TripSchema.array().parse(trips)
+    return TripSelectSchema.array().parse(trips)
 }
 
-export async function getUserTrips(userId: string): Promise<Trip[]> {
+export async function getUserTrips(userId: string): Promise<TripSelect[]> {
     const trips = await drizzle
         .select()
         .from(tripsTable)
         .where(eq(tripsTable.account, userId))
-    return TripSchema.array().parse(trips)
+    return TripSelectSchema.array().parse(trips)
 }
 
 export async function addTrip(trip: NewTrip): Promise<{ id: string }> {

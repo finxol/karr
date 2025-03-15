@@ -44,7 +44,7 @@ function FetchUserData({ userid }: { userid: string }) {
 
 // TODO: add user type
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ShowUserData({ data: { data: user } }: { data: any }) {
+function ShowUserData({ data: { data: user } }: { data: { data: any } }) {
     const t = useTranslations("auth.Account")
 
     const hasSpecialStatus = user.SpecialStatus?.id || false
