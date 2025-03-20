@@ -12,9 +12,11 @@
     },
     "dependencies": {
         "@hookform/resolvers": "catalog:",
+        "@karr/auth": "workspace:*",
         "@karr/config": "workspace:*",
         "@karr/db": "workspace:*",
         "@karr/ui": "workspace:*",
+        "@openauthjs/openauth": "catalog:",
         "@tailwindcss/postcss": "catalog:",
         "@tanstack/react-query": "catalog:",
         "babel-plugin-react-compiler": "catalog:",

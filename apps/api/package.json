@@ -16,15 +16,18 @@
     },
     "dependencies": {
         "@hono/node-server": "catalog:",
+        "@karr/auth": "workspace:*",
         "@karr/config": "workspace:*",
         "@karr/db": "workspace:*",
         "@karr/util": "workspace:*",
+        "@openauthjs/openauth": "catalog:",
         "drizzle-kit": "catalog:",
         "drizzle-orm": "catalog:",
         "drizzle-zod": "catalog:",
         "hono": "catalog:",
         "ofetch": "catalog:",
         "postgres": "catalog:",
+        "unstorage": "catalog:",
         "zod": "catalog:"
     },
     "devDependencies": {

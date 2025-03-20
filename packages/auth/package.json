@@ -1,0 +1,31 @@
+{
+    "name": "@karr/auth",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "lint": "eslint . --max-warnings 0",
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "check-types": "tsc--noEmit",
+        "test": "vitest"
+    },
+    "exports": {
+        "./*": {
+            "types": "./src/*.ts",
+            "default": "./dist/*.js"
+        }
+    },
+    "dependencies": {
+        "@karr/config": "workspace:*",
+        "@openauthjs/openauth": "catalog:",
+        "zod": "catalog:"
+    },
+    "devDependencies": {
+        "@karr/eslint-config": "workspace:*",
+        "@karr/tsconfig": "workspace:*",
+        "@types/node": "catalog:",
+        "typescript": "catalog:tooling",
+        "vite-tsconfig-paths": "catalog:vitest",
+        "vitest": "catalog:vitest"
+    }
+}

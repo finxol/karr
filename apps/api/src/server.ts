@@ -1,6 +1,7 @@
 import { Hono } from "hono"
 import { getCookie } from "hono/cookie"
 import { cors } from "hono/cors"
+import { showRoutes } from "hono/dev"
 import { validator } from "hono/validator"
 
 import { API_VERSION, FEDERATION, PRODUCTION } from "@karr/config"
@@ -8,7 +9,8 @@ import { API_VERSION, FEDERATION, PRODUCTION } from "@karr/config"
 import { getAccount } from "@/lib/auth"
 import { responseErrorObject } from "@/lib/helpers"
 import account from "@/routes/account"
-import auth from "@/routes/auth"
+//import auth from "@/routes/auth"
+import auth from "@/routes/auth/issuer"
 import federation from "@/routes/federation"
 import system from "@/routes/system"
 import trips from "@/routes/trips"
@@ -82,18 +84,6 @@ export const build = (): Hono => {
                 )
             }
 
-            // check the id is a valid UUID
-            // if (!isUUIDv4(id)) {
-            //     return responseErrorObject(
-            //         c,
-            //         {
-            //             message: "Unauthorized",
-            //             cause: "Invalid authorization token"
-            //         },
-            //         401
-            //     )
-            // }
-
             return { id }
         })
     )
@@ -108,6 +98,10 @@ export const build = (): Hono => {
     if (FEDERATION) {
         hono.route(`/${API_VERSION}/federation`, federation)
     }
+
+    showRoutes(hono, {
+        verbose: true
+    })
 
     return hono
 }
