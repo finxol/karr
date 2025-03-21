@@ -84,6 +84,9 @@ catalogs:
     lucide-react:
       specifier: ^0.482.0
       version: 0.482.0
+    neverthrow:
+      specifier: ^8.2.0
+      version: 8.2.0
     next:
       specifier: ^15.2.2
       version: 15.2.2
@@ -286,6 +289,9 @@ importers:
       hono:
         specifier: 'catalog:'
         version: 4.7.4
+      neverthrow:
+        specifier: 'catalog:'
+        version: 8.2.0
       ofetch:
         specifier: 'catalog:'
         version: 1.4.1
@@ -3975,6 +3981,10 @@ packages:
   netmask@2.0.2:
     resolution: {integrity: sha512-dBpDMdxv9Irdq66304OLfEmQ9tbNRFnFTuZiLo+bD+r332bBmMJ8GBLXklIXXgxd3+v9+KUnZaUR5PJMa75Gsg==}
     engines: {node: '>= 0.4.0'}
+
+  neverthrow@8.2.0:
+    resolution: {integrity: sha512-kOCT/1MCPAxY5iUV3wytNFUMUolzuwd/VF/1KCx7kf6CutrOsTie+84zTGTpgQycjvfLdBBdvBvFLqFD2c0wkQ==}
+    engines: {node: '>=18'}
 
   next-intl@3.26.3:
     resolution: {integrity: sha512-6Y97ODrDsEE1J8cXKMHwg1laLdtkN66QMIqG8BzH4zennJRUNTtM8UMtBDyhfmF6uiZ+xsbWLXmHUgmUymUsfQ==}
@@ -8363,6 +8373,10 @@ snapshots:
   neo-async@2.6.2: {}
 
   netmask@2.0.2: {}
+
+  neverthrow@8.2.0:
+    optionalDependencies:
+      '@rollup/rollup-linux-x64-gnu': 4.35.0
 
   next-intl@3.26.3(next@15.2.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
     dependencies:

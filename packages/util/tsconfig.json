@@ -4,6 +4,8 @@
         "outDir": "dist",
         "rootDir": "src",
         "baseUrl": "src/",
+        "moduleResolution": "bundler",
+        "module": "ESNext",
         "paths": {
             "@/*": ["./*"]
         }

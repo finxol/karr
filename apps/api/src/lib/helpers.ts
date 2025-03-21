@@ -2,6 +2,7 @@ import type { Context } from "hono"
 import { ContentfulStatusCode } from "hono/utils/http-status"
 
 import { ADMIN_EMAIL } from "@karr/config"
+import { tryCatch } from "@karr/util"
 import logger from "@karr/util/logger"
 
 /**
@@ -29,7 +30,7 @@ export function tmpResponse(c: Context) {
  */
 export function responseErrorObject(
     c: Context,
-    error: Error | { cause?: string | unknown; message: string },
+    error: Error | string | { cause?: string | unknown; message: string },
     code: ContentfulStatusCode = 500
 ) {
     return c.json(
@@ -51,23 +52,25 @@ export function responseErrorObject(
  * @returns The result of the function or an error object
  */
 export async function handleRequest<T>(c: Context, fn: () => Promise<T>) {
-    try {
-        const out: T = await fn()
-        if (!out) {
-            return responseErrorObject(c, { message: "Resource not found" }, 404)
-        }
-        return c.json({
-            timestamp: new Date().getTime(),
-            data: out
-        })
-    } catch (err) {
-        logger.error(err)
+    const out = await tryCatch(fn())
+
+    if (out.error) {
+        logger.error(out.error)
         return responseErrorObject(
             c,
-            { message: "Internal server error", cause: err },
+            { message: "Internal server error", cause: out.error },
             500
         )
     }
+
+    if (!out.value) {
+        return responseErrorObject(c, { message: "Resource not found" }, 404)
+    }
+
+    return c.json({
+        timestamp: new Date().getTime(),
+        data: out
+    })
 }
 
 /**

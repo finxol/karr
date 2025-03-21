@@ -49,6 +49,7 @@ catalog:
     drizzle-zod: ^0.6.1
     esbuild: ^0.25.1
     hono: ^4.7.4
+    neverthrow: ^8.2.0
     postgres: ^3.4.5
     unstorage: ^1.15.0
 

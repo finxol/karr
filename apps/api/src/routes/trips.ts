@@ -43,7 +43,18 @@ hono.get("/search", (c) => {
 
         try {
             // Get the trips from the local server
-            const immediatePromise: Promise<void> = getTrips().then(sendData)
+            const immediatePromise = getTrips().then((data) => {
+                if (data.isErr()) {
+                    stream.writeSSE({
+                        data: JSON.stringify(data.error),
+                        event: "error",
+                        id: crypto.randomUUID()
+                    })
+                    return Promise.reject(data.error)
+                }
+
+                sendData(data.value)
+            })
 
             // Get the trips from the federated servers
             const slowerPromises: Promise<void>[] = [
@@ -51,7 +62,11 @@ hono.get("/search", (c) => {
                 // getSlowerData().then(sendData)
             ]
 
-            await Promise.all([...tripsToSend, immediatePromise, ...slowerPromises])
+            await Promise.allSettled([
+                ...tripsToSend,
+                immediatePromise,
+                ...slowerPromises
+            ])
             logger.debug("All data sent")
         } catch (error) {
             stream.close()
@@ -69,25 +84,32 @@ hono.post("/add", async (c) => {
     //@ts-expect-error valid does take in a parameter
     const { id } = c.req.valid("cookie")
 
-    try {
-        const t = await c.req.json<NewTrip>()
-        t.account = id
-        const trip: NewTrip = NewTripSchema.parse(t)
+    const t = await c.req.json<NewTrip>()
+    t.account = id
+    const trip = NewTripSchema.safeParse(t)
 
-        const createdTrip = await addTrip(trip)
-
-        logger.debug(`Added trip:`, createdTrip)
-
-        return c.json(<DataResponse<object>>{
-            data: {
-                id: createdTrip.id,
-                name: "Test Trip"
-            }
-        })
-    } catch (error) {
-        logger.error("Error adding trip:", error)
-        return responseErrorObject(c, { message: "Error adding trip" }, 500)
+    if (!trip.success) {
+        return responseErrorObject(
+            c,
+            { message: "Invalid trip data", cause: trip.error.errors },
+            400
+        )
     }
+
+    const createdTrip = await addTrip(trip.data)
+
+    if (createdTrip.isErr()) {
+        return responseErrorObject(c, createdTrip.error, 400)
+    }
+
+    logger.debug(`Added trip:`, createdTrip)
+
+    return c.json(<DataResponse<object>>{
+        data: {
+            id: createdTrip.value.id,
+            name: "Test Trip"
+        }
+    })
 })
 
 /**
@@ -123,28 +145,3 @@ hono.get("/:id", (c) => {
 })
 
 export default hono
-
-// ===============================================
-// ================ For SSE tests ================
-// ===============================================
-
-//eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getSlowerData(): Promise<Trip[]> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve([
-                {
-                    id: crypto.randomUUID(),
-                    from: "Rennes",
-                    to: "Acigne",
-                    departure: "2025-01-23",
-                    price: 5,
-                    email: "john.doe@example.com",
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    account: "715d3ca1-50ec-4bd1-8934-15bd0676a23b"
-                }
-            ])
-        }, 3000) // Simulate delay
-    })
-}

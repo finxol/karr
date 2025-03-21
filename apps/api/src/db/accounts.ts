@@ -2,8 +2,7 @@ import { eq } from "drizzle-orm"
 
 import drizzle from "@karr/db"
 import { accountsTable } from "@karr/db/schemas/accounts.js"
-
-import type { AccountVerified } from "@/lib/types.d.ts"
+import { tryCatch } from "@karr/util"
 
 /**
  * Change an account's email address
@@ -11,8 +10,15 @@ import type { AccountVerified } from "@/lib/types.d.ts"
  * @param email The new email address
  * @returns Whether the update was successful
  */
-export async function updateEmail(id: string, email: string): Promise<boolean> {
-    await drizzle.update(accountsTable).set({ email }).where(eq(accountsTable.id, id))
+export async function updateEmail(id: string, email: string) {
+    const success = await tryCatch(
+        drizzle.update(accountsTable).set({ email }).where(eq(accountsTable.id, id))
+    )
+
+    if (success.error) {
+        return false
+    }
+
     return true
 }
 
@@ -21,15 +27,24 @@ export async function updateEmail(id: string, email: string): Promise<boolean> {
  * @param id The ID of the account to check. Assumes uuid v4 format.
  * @returns Whether the user is verified
  */
-export async function isVerified(id: string): Promise<AccountVerified> {
-    const accounts = await drizzle
-        .select({
-            verified: accountsTable.verified
-        })
-        .from(accountsTable)
-        .where(eq(accountsTable.user, id))
-        .limit(1)
+export async function isVerified(id: string) {
+    const accounts = await tryCatch(
+        drizzle
+            .select({
+                verified: accountsTable.verified
+            })
+            .from(accountsTable)
+            .where(eq(accountsTable.user, id))
+            .limit(1)
+    )
+
+    if (accounts.error) {
+        return {
+            verified: false
+        }
+    }
+
     return {
-        verified: accounts[0]?.verified === true
+        verified: accounts.value[0]?.verified === true
     }
 }

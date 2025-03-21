@@ -14,23 +14,20 @@ hono.post("/login", async (c) => {
 
     const authToken = getCookie(c, "auth-token")
 
-    let token: string
-    if (authToken) {
-        token = authToken
-    } else {
-        try {
-            token = await login(body.email, body.password)
-        } catch (error) {
-            logger.error("login failed", { error })
+    if (!authToken) {
+        const token = await login(body.email, body.password)
+
+        if (token.isErr()) {
+            logger.error("login failed", { error: token.error })
             return responseErrorObject(c, { message: "Invalid email or password" }, 401)
         }
-    }
 
-    setCookie(c, "auth-token", token, {
-        httpOnly: true,
-        sameSite: "strict",
-        maxAge: 60 * 60 * 24 // 1 day
-    })
+        setCookie(c, "auth-token", token.value, {
+            httpOnly: true,
+            sameSite: "strict",
+            maxAge: 60 * 60 * 24 // 1 day
+        })
+    }
 
     return c.json("ok")
 })
@@ -39,15 +36,14 @@ hono.post("/signup", async (c) => {
     const body = await c.req.json()
     logger.debug("signup", { body })
 
-    let token: string
-    try {
-        token = await register(body.email, body.password)
-    } catch (error) {
-        logger.error("signup failed", { error })
+    const token = await register(body.email, body.password)
+
+    if (token.isErr()) {
+        logger.error("signup failed", { error: token.error })
         return responseErrorObject(c, { message: "Invalid email or password" }, 401)
     }
 
-    setCookie(c, "auth-token", token, {
+    setCookie(c, "auth-token", token.value, {
         httpOnly: true,
         sameSite: "strict",
         maxAge: 60 * 60 * 24 // 1 day

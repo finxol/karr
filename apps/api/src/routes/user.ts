@@ -1,10 +1,7 @@
 import { Hono } from "hono"
 
 import { handleRequest, responseErrorObject, tmpResponse } from "@/lib/helpers"
-import type {
-    UserWithPrefsAndStatus as _UserWithPrefsAndStatus,
-    UserPublicProfile
-} from "@/lib/types.d.ts"
+import type { UserWithPrefsAndStatus as _UserWithPrefsAndStatus } from "@/lib/types.d.ts"
 import { selectUserById, selectUserProfileById, updateNickname } from "@/db/users"
 
 const hono = new Hono()
@@ -109,7 +106,7 @@ hono.get(
         const { id } = c.req.valid("cookie")
 
         // get the user from the database and send it back
-        return await handleRequest<UserPublicProfile>(c, () => selectUserProfileById(id))
+        return await handleRequest(c, () => selectUserProfileById(id))
     }
 )
 

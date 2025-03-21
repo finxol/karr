@@ -25,6 +25,7 @@
         "drizzle-orm": "catalog:",
         "drizzle-zod": "catalog:",
         "hono": "catalog:",
+        "neverthrow": "catalog:",
         "ofetch": "catalog:",
         "postgres": "catalog:",
         "unstorage": "catalog:",
