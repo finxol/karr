@@ -1,11 +1,12 @@
 import { Hono } from "hono"
-import { getCookie } from "hono/cookie"
 import { cors } from "hono/cors"
+import { secureHeaders } from "hono/secure-headers"
 import { validator } from "hono/validator"
 
 import { API_VERSION, FEDERATION, PRODUCTION } from "@karr/config"
+import logger from "@karr/util/logger"
 
-import { getAccount } from "@/lib/auth"
+import { isAuthenticated } from "@/lib/auth"
 import { responseErrorObject } from "@/lib/helpers"
 import account from "@/routes/account"
 import auth from "@/routes/auth"
@@ -22,7 +23,42 @@ import user from "@/routes/user"
 export const build = (): Hono => {
     const hono: Hono = new Hono()
 
-    // TODO(@finxol): Add security headers
+    // ============================
+    // ==== Unprotected routes ====
+    // ============================
+    const unprotectedRoutes = new Hono()
+    unprotectedRoutes.route("/", system)
+    unprotectedRoutes.route(`/${API_VERSION}/auth`, auth)
+
+    // ============================
+    // ====== Regular routes ======
+    // ============================
+    const protectedRoutes = new Hono().basePath(`/${API_VERSION}`)
+    protectedRoutes.route("/user", user)
+    protectedRoutes.route("/account", account)
+    protectedRoutes.route("/trips", trips)
+
+    // auth check middleware
+    protectedRoutes.use(
+        validator("cookie", async (_value, c) => {
+            const authed = await isAuthenticated(c)
+
+            if (!authed) {
+                logger.error("Unauthorized request")
+                return responseErrorObject(c, "Unauthorized", 401)
+            }
+        })
+    )
+
+    // ============================
+    // ===== Federation routes ====
+    // ============================
+    if (FEDERATION) {
+        const federationRoutes = new Hono().basePath(`/${API_VERSION}/federation`)
+        federationRoutes.route("/", federation)
+
+        hono.route("/", federationRoutes)
+    }
 
     // Add CORS middleware
     hono.use(
@@ -39,65 +75,17 @@ export const build = (): Hono => {
         })
     )
 
-    // ============================
-    // ==== Unprotected routes ====
-    // ============================
-    hono.route("/", system)
-    hono.route(`/${API_VERSION}/auth`, auth)
-
-    // =============================
-    // ======== Middlewares ========
-    // =============================
-    /**
-     * Check if a user is logged in by checking the Authorization header
-     */
+    // TODO(@finxol): fix security headers
     hono.use(
-        validator("cookie", async (value, c) => {
-            const authtoken = getCookie(c, "auth-token")
-
-            if (authtoken === undefined || authtoken === "") {
-                return responseErrorObject(
-                    c,
-                    {
-                        message: "Unauthorized",
-                        cause: "Auth token is required in cookie"
-                    },
-                    401
-                )
-            }
-
-            const acc = await getAccount(authtoken)
-
-            if (acc.isErr()) {
-                return responseErrorObject(
-                    c,
-                    {
-                        message: "Unauthorized",
-                        cause: "Invalid authorization token"
-                    },
-                    401
-                )
-            }
-
-            // TODO(@finxol): verify the JWT
-            const id =
-                // very unsafe, but it's just for the PoC
-                authtoken === "federation" ? "federation" : acc.value
-
-            return { id }
+        "*",
+        secureHeaders({
+            xFrameOptions: false,
+            xXssProtection: false
         })
     )
 
-    // ============================
-    // ===== Protected routes =====
-    // ============================
-    hono.route(`/${API_VERSION}/user`, user)
-    hono.route(`/${API_VERSION}/account`, account)
-    hono.route(`/${API_VERSION}/trips`, trips)
-
-    if (FEDERATION) {
-        hono.route(`/${API_VERSION}/federation`, federation)
-    }
+    hono.route("/", unprotectedRoutes)
+    hono.route("/", protectedRoutes)
 
     return hono
 }

@@ -1,7 +1,8 @@
-import { cookies } from "next/headers"
+import { cookies as getCookies } from "next/headers"
 import { User as IconUser } from "lucide-react"
 import { getTranslations } from "next-intl/server"
 
+import { getFrontendApi } from "@karr/ory/sdk/server"
 import { Button } from "@karr/ui/components/button"
 
 import { Link } from "@/i18n/routing"
@@ -9,12 +10,21 @@ import { Link } from "@/i18n/routing"
 export default async function LoginAccount() {
     const t = await getTranslations("auth")
 
-    const c = await cookies()
-    const isAuthenticated = c.get("auth-token") !== undefined
+    const cookies = await getCookies()
+
+    const kratos = await getFrontendApi()
+    const session = await kratos
+        .toSession({
+            cookie: `ory_kratos_session=${cookies.get("ory_kratos_session")?.value}`
+        })
+        .catch(() => {
+            console.log("No session")
+            return null
+        })
 
     return (
         <>
-            {isAuthenticated ? (
+            {session ? (
                 <Button asChild>
                     <Link href="/account">
                         <IconUser />

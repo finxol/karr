@@ -47,7 +47,8 @@
             "core-js",
             "core-js-pure",
             "esbuild",
-            "sharp"
+            "sharp",
+            "tldjs"
         ]
     },
     "lint-staged": {

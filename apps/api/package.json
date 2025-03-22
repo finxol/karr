@@ -18,6 +18,7 @@
         "@hono/node-server": "catalog:",
         "@karr/config": "workspace:*",
         "@karr/db": "workspace:*",
+        "@karr/ory": "workspace:*",
         "@karr/util": "workspace:*",
         "drizzle-kit": "catalog:",
         "drizzle-orm": "catalog:",

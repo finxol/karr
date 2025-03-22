@@ -10,6 +10,6 @@ FEDERATION_TARGETS:
 DB_CONFIG:
     host: localhost
     port: 5432
-    user: karr
-    password: karr
-    db_name: karr
+    user: postgres
+    password: postgres
+    db_name: postgres

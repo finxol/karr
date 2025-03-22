@@ -14,7 +14,9 @@ const nextConfig = {
         "/**/*.css": ["src/assets/**/*.css"]
     },
     env: {
-        NEXT_PUBLIC_API_ROUTE: `${API_BASE}/${API_VERSION}`
+        NEXT_PUBLIC_API_URL: `${API_BASE}/${API_VERSION}`,
+        ORY_HYDRA_ADMIN_URL: "http://localhost:4445",
+        NEXT_PUBLIC_ORY_KRATOS_URL: "http://localhost:4433"
     },
 
     experimental: {
