@@ -23,7 +23,9 @@ export const nextJsConfig = [
         },
         rules: {
             // using TypeScript for type checking instead of PropTypes
-            "react/prop-types": "off"
+            "react/prop-types": "off",
+            // Disallow hardcoded labels in component markup
+            "react/jsx-no-literals": "error"
         }
     },
     {
