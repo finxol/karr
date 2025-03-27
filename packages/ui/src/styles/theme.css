@@ -4,8 +4,7 @@
     :root {
         --background: hsl(140 20% 97%);
         --foreground: hsl(132 5% 10%);
-        --header-background: hsl(132 45% 90%);
-        --card: hsl(132 37% 90%);
+        --card: hsl(132, 28%, 90%);
         --card-foreground: hsl(132 5% 15%);
         --popover: hsl(132 30% 97%);
         --popover-foreground: hsl(132 95% 10%);
@@ -26,9 +25,8 @@
     }
 
     .dark {
-        --background: hsl(132 4% 10%);
+        --background: hsl(132 2% 10%);
         --foreground: hsl(132 5% 90%);
-        --header-background: hsl(132 4% 10%);
         --card: hsl(132 15% 15%);
         --card-foreground: hsl(132 5% 90%);
         --popover: hsl(132 30% 6%);
@@ -57,8 +55,8 @@
         var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-mono:
-        var(--font-baskervville), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        "Liberation Mono", "Courier New", monospace;
+        ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
 
     --color-mint-green: oklch(83.66% 0.125 176.45);
     --color-baby-blue: oklch(85.61% 0.094 225.87);
