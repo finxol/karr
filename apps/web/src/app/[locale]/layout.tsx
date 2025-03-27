@@ -14,7 +14,6 @@ import { APPLICATION_NAME } from "@/util/appname"
 import Footer from "../_components/footer"
 import Header from "../_components/header"
 import ThemeProvider from "../_components/ThemeProvider"
-import { CSPostHogProvider } from "./providers"
 
 const geistSans = localFont({
     src: "../../assets/fonts/GeistVF.woff",
@@ -59,27 +58,25 @@ export default async function RootLayout({
             <head>
                 {/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" async /> */}
             </head>
-            <CSPostHogProvider>
-                <body>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <NextIntlClientProvider messages={messages}>
-                            <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr]">
-                                <Header />
-                                <main className="mx-4 mt-4 flex h-full flex-col items-start justify-start">
-                                    {children}
-                                </main>
-                                <Footer />
-                            </div>
-                            <Toaster richColors />
-                        </NextIntlClientProvider>
-                    </ThemeProvider>
-                </body>
-            </CSPostHogProvider>
+            <body>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="system"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <NextIntlClientProvider messages={messages}>
+                        <div className="grid h-screen grid-cols-1 grid-rows-[auto_1fr]">
+                            <Header />
+                            <main className="mx-4 mt-4 flex h-full flex-col items-start justify-start">
+                                {children}
+                            </main>
+                            <Footer />
+                        </div>
+                        <Toaster richColors />
+                    </NextIntlClientProvider>
+                </ThemeProvider>
+            </body>
         </html>
     )
 }

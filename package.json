@@ -34,7 +34,7 @@
         "turbo": "catalog:tooling",
         "typescript": "catalog:tooling"
     },
-    "packageManager": "pnpm@10.6.5",
+    "packageManager": "pnpm@10.7.0",
     "engines": {
         "node": ">=22"
     },
@@ -47,7 +47,8 @@
             "core-js",
             "core-js-pure",
             "esbuild",
-            "sharp"
+            "sharp",
+            "tldjs"
         ]
     },
     "lint-staged": {

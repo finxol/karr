@@ -15,12 +15,12 @@ const MemoizedAppName = memo(
 )
 
 export default async function Header() {
-    const c = await cookies()
-    const isAuthenticated = c.get("auth-token") !== undefined
+    const jar = await cookies()
+    const isAuthenticated = jar.get("auth-token") !== undefined
 
     return (
         <header className="bg-transparent w-full sticky top-0 z-50 px-2">
-            <div className="flex flex-row items-center justify-between mx-auto mt-2 px-2 py-2 max-w-[60rem] bg-header-background w-full rounded-md">
+            <div className="flex flex-row items-center justify-between mx-auto mt-2 px-2 py-2 max-w-[60rem] bg-card w-full rounded-md">
                 <div className="flow-inline flex flex-row items-center justify-end">
                     <Link
                         href="/"

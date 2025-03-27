@@ -14,7 +14,13 @@
         "@hookform/resolvers": "catalog:",
         "@karr/config": "workspace:*",
         "@karr/db": "workspace:*",
+        "@karr/ory": "workspace:*",
         "@karr/ui": "workspace:*",
+        "@ory/client": "catalog:",
+        "@ory/integrations": "catalog:",
+        "@oslojs/crypto": "catalog:",
+        "@oslojs/jwt": "catalog:",
+        "@oslojs/webauthn": "catalog:",
         "@tailwindcss/postcss": "catalog:",
         "@tanstack/react-query": "catalog:",
         "babel-plugin-react-compiler": "catalog:",
@@ -29,7 +35,8 @@
         "react": "catalog:",
         "react-dom": "catalog:",
         "react-hook-form": "catalog:",
-        "tailwindcss": "catalog:"
+        "tailwindcss": "catalog:",
+        "ua-parser-js": "catalog:"
     },
     "devDependencies": {
         "@karr/eslint-config": "workspace:*",

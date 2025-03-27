@@ -1,0 +1,34 @@
+{
+    "name": "@karr/ory",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "lint": "eslint . --max-warnings 0",
+        "dev": "tsc --watch",
+        "build": "tsc",
+        "check-types": "tsc --noEmit",
+        "test": "vitest"
+    },
+    "exports": {
+        "./sdk/client": {
+            "types": "./src/sdk/client/index.ts",
+            "default": "./dist/sdk/client/index.js"
+        },
+        "./sdk/server": {
+            "types": "./src/sdk/server/index.ts",
+            "default": "./dist/sdk/server/index.js"
+        }
+    },
+    "dependencies": {
+        "@ory/client": "catalog:"
+    },
+    "devDependencies": {
+        "@karr/eslint-config": "workspace:*",
+        "@karr/tsconfig": "workspace:*",
+        "@types/node": "catalog:",
+        "eslint": "catalog:tooling",
+        "typescript": "catalog:tooling",
+        "vite-tsconfig-paths": "catalog:vitest",
+        "vitest": "catalog:vitest"
+    }
+}

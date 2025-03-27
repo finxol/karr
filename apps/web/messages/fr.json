@@ -1,4 +1,14 @@
 {
+    "Ory": {
+        "Login": {
+            "title": "Bienvenue sur Karr",
+            "description": "Connectez-vous pour accéder aux fonctionnalités de covoiturage"
+        },
+        "Recovery": {
+            "title": "Récupération de mot de passe",
+            "description": "Réinitialisez votre mot de passe par email"
+        }
+    },
     "HomePage": {
         "slogan": "La plateforme de covoiturage fédérée."
     },

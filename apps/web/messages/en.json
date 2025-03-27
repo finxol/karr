@@ -1,4 +1,14 @@
 {
+    "Ory": {
+        "Login": {
+            "title": "Welcome to Karr",
+            "description": "Log in to access carpooling features"
+        },
+        "Recovery": {
+            "title": "Password Recovery",
+            "description": "Reset your password via email"
+        }
+    },
     "HomePage": {
         "slogan": "The federated carpool platform."
     },

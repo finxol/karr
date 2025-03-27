@@ -1,7 +1,9 @@
 import { ofetch } from "ofetch"
 
 export const apiFetch = ofetch.create({
-    baseURL: process.env.NEXT_PUBLIC_API_ROUTE,
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     credentials: "include",
-    responseType: "json"
+    headers: {
+        "X-Requested-With": "XMLHttpRequest"
+    }
 })

@@ -2,6 +2,7 @@
     "extends": "@karr/tsconfig/nextjs.json",
     "compilerOptions": {
         "baseUrl": "src/",
+        "rootDir": "./",
         "paths": {
             "@/*": ["./*"]
         },

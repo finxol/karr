@@ -1,9 +1,12 @@
 import crypto from "node:crypto"
-import { and, eq } from "drizzle-orm"
+import { eq } from "drizzle-orm"
+import { Context } from "hono"
+import { getCookie } from "hono/cookie"
 import { err, ok } from "neverthrow"
 
 import db from "@karr/db"
 import { accountsTable } from "@karr/db/schemas/accounts.js"
+import { getFrontendApi } from "@karr/ory/sdk/server"
 import { tryCatch } from "@karr/util"
 import logger from "@karr/util/logger"
 
@@ -92,33 +95,24 @@ export async function register(email: string, password: string) {
     return ok(token)
 }
 
-export async function isAuthenticated(userId: string, token: string) {
-    const user = await tryCatch(
-        db
-            .select({
-                id: accountsTable.id,
-                email: accountsTable.email,
-                blocked: accountsTable.blocked,
-                verified: accountsTable.verified
-            })
-            .from(accountsTable)
-            .where(and(eq(accountsTable.token, token), eq(accountsTable.id, userId)))
-            .limit(1)
-    )
+/**
+ * Check if the user is authenticated
+ * @param ctx The request context
+ * @returns true if the user is authenticated
+ */
+export async function isAuthenticated(ctx: Context) {
+    const cookie = getCookie(ctx, "ory_kratos_session")
 
-    if (user.error) {
-        return false
-    }
+    const kratos = await getFrontendApi()
+    const session = await kratos
+        .toSession({ cookie: "ory_kratos_session=" + cookie })
+        .then(({ data }) => data)
+        .catch((err) => {
+            logger.error("Failed to get session", err)
+            return null
+        })
 
-    if (!user || user.value.length === 0 || user.value[0] === undefined) {
-        return false
-    }
-
-    if (user.value[0].id !== userId) {
-        return false
-    }
-
-    return true
+    return !!session?.active
 }
 
 export async function logout(token: string) {
