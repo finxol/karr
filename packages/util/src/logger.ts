@@ -74,7 +74,7 @@ const formatArg = (arg: unknown): string => {
  * logger.error("Major error", error, 123)
  * ```
  */
-export default {
+export const logger = {
     /**
      * Log a message to the console, with no particular level.
      * Is only logged if the log level is set to trace, debug, or info.
@@ -222,3 +222,5 @@ export default {
         }
     }
 }
+
+export default logger
