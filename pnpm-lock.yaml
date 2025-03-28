@@ -438,6 +438,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.13.10
+      eslint:
+        specifier: catalog:tooling
+        version: 9.22.0(jiti@2.4.2)
       typescript:
         specifier: catalog:tooling
         version: 5.8.2
