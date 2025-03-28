@@ -1,6 +1,7 @@
 "use server"
 
 import { cookies as getCookies } from "next/headers"
+import { getLocale } from "next-intl/server"
 
 import { callbackUrl, client } from "@karr/auth/client"
 import { subjects } from "@karr/auth/subjects"
@@ -33,6 +34,7 @@ export async function auth() {
 }
 
 export async function login() {
+    const locale = await getLocale()
     const cookies = await getCookies()
     const accessToken = cookies.get("access_token")
     const refreshToken = cookies.get("refresh_token")
@@ -43,18 +45,19 @@ export async function login() {
         })
         if (!verified.err && verified.tokens) {
             await setTokens(verified.tokens.access, verified.tokens.refresh)
-            redirect({ href: "/", locale: "fr" })
+            redirect({ href: "/", locale })
         }
     }
 
     const { url } = await client.authorize(callbackUrl, "code")
-    redirect({ href: url, locale: "fr" })
+    redirect({ href: url, locale })
 }
 
 export async function logout() {
+    const locale = await getLocale()
     const cookies = await getCookies()
     cookies.delete("access_token")
     cookies.delete("refresh_token")
 
-    redirect({ href: "/", locale: "fr" })
+    redirect({ href: "/", locale })
 }

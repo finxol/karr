@@ -1,5 +1,7 @@
 import crypto from "node:crypto"
-import { and, eq } from "drizzle-orm"
+import { eq } from "drizzle-orm"
+import { Context } from "hono"
+import { getCookie } from "hono/cookie"
 import { err, ok } from "neverthrow"
 
 import db from "@karr/db"
@@ -92,33 +94,15 @@ export async function register(email: string, password: string) {
     return ok(token)
 }
 
-export async function isAuthenticated(userId: string, token: string) {
-    const user = await tryCatch(
-        db
-            .select({
-                id: accountsTable.id,
-                email: accountsTable.email,
-                blocked: accountsTable.blocked,
-                verified: accountsTable.verified
-            })
-            .from(accountsTable)
-            .where(and(eq(accountsTable.token, token), eq(accountsTable.id, userId)))
-            .limit(1)
-    )
+/**
+ * Check if the user is authenticated
+ * @param ctx The request context
+ * @returns true if the user is authenticated
+ */
+export async function isAuthenticated(ctx: Context) {
+    const token = getCookie(ctx, "token")
 
-    if (user.error) {
-        return false
-    }
-
-    if (!user || user.value.length === 0 || user.value[0] === undefined) {
-        return false
-    }
-
-    if (user.value[0].id !== userId) {
-        return false
-    }
-
-    return true
+    return !!token
 }
 
 export async function logout(token: string) {
