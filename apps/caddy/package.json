@@ -1,0 +1,7 @@
+{
+    "name": "@karr/caddy",
+    "description": "This is only to get the caddy proxy running in dev as well",
+    "scripts": {
+        "dev": "docker run --add-host=host.docker.internal:host-gateway -p 80:80 -v $PWD/conf:/etc/caddy caddy"
+    }
+}

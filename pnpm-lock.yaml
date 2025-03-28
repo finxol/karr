@@ -327,6 +327,8 @@ importers:
         specifier: catalog:tooling
         version: 5.8.2
 
+  apps/caddy: {}
+
   apps/web:
     dependencies:
       '@hookform/resolvers':

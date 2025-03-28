@@ -6,7 +6,7 @@
 	}
 }
 
-{$SITE_ADDRESS} {
+localhost:80 {
 	log {
 		output stdout
 		format json
@@ -15,14 +15,14 @@
 
 	handle /.well-known/* {
 		rewrite * /v1/auth{uri}
-		reverse_proxy api:{$API_PORT}
+		reverse_proxy http://host.docker.internal:1993
 	}
 
 	handle_path /api/* {
-		reverse_proxy api:{$API_PORT}
+		reverse_proxy http://host.docker.internal:1993
 	}
 
 	handle {
-		reverse_proxy web:{$WEB_PORT}
+		reverse_proxy http://host.docker.internal:3000
 	}
 }
